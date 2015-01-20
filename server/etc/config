@@ -1,0 +1,38 @@
+{
+    "logsPath":"logs",
+    "verbose":false,
+    "pingTimeout":500,
+    "systemId": "monitorServer",
+    "Core":{
+        "coreId":"sTest",
+        "redisHost":"swarm-env",
+        "redisPort":6379,
+        "paths":[
+            {"folder":"../../SwarmCore/etc/coreSwarms"      ,"enabled":true},
+	        {"folder":"../../SwarmCore/etc/xSwarms"         ,"enabled":true},
+            {"folder":"../../SwarmCore/etc/testSwarms"      ,"enabled":true},
+            {"folder":"swarms"                              ,"enabled":true}
+        ]
+    },
+    "ClientAdapter":{
+        "bindAddress": "localhost",
+        "port":3000
+    },
+    "SystemAdapter":{
+        
+    },
+    "SwarmMonitor":{
+        "pingInterval": 5000,
+        "checkLoadInterval": 1000
+    },
+    "Logger":{},
+    "Launcher":{
+        "autorun":[
+            {"node":"adapters/Logger.js",                       "enabled":true  },
+            {"node":"adapters/SystemAdapter.js",                "enabled":true  },
+            {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":true  },
+            {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
+            {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  }
+        ]
+    }
+}

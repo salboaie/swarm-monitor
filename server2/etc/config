@@ -1,0 +1,34 @@
+{
+ "logsPath":"logs",
+ "verbose":false,
+ "pingTimeout":500,
+ "systemId": "testServer",
+ "Core":{
+     "coreId":"sTest",
+     "redisHost":"swarm-env",
+     "redisPort":6379,
+     "paths":[
+        {"folder":"../../SwarmCore/etc/coreSwarms"      ,"enabled":false},
+	    {"folder":"../../SwarmCore/etc/xSwarms"         ,"enabled":false},
+        {"folder":"../../SwarmCore/etc/testSwarms"      ,"enabled":false},
+        {"folder":"swarms"                              ,"enabled":false}
+     ]
+  },
+  "ClientAdapter":{
+    "bindAddress": "localhost",
+    "port":3011
+  },
+ "Logger":{},
+ "Launcher":{
+            "autorun":[
+                        {"node":"../server/adapters/Logger.js",                "enabled":false  },
+                        {"node":"../server/adapters/SystemAdapter.js",                "enabled":true  },
+                        {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":false  },
+                        {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  },
+                        {"node":"../../SwarmCore/etc/adapters/TestAdapter.js"  ,         "enabled":false   },
+                        {"node":"../../SwarmCore/etc/adapters/SharedAdapter.js",         "enabled":false  },
+                        {"node":"../../SwarmCore/etc/adapters/WSServer.js",              "enabled":false  },
+                        {"node":"../../SwarmCore/adapters/UsersRepo.js",                 "enabled":false  }
+            ]
+   }
+}
