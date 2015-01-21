@@ -18,8 +18,7 @@ var swarmDescription =
     getSystemInfo:{ 
         node:"SystemAdapter",
         code : function (){
-            var self = this;
-            self.systemInfo = {
+            this.systemInfo = {
                 systemId: systemId(),
                 hostName: hostName(),
                 type: systemType(),
@@ -30,12 +29,7 @@ var swarmDescription =
                 freeMemory: freeMemory(),
                 cpus: cpus()
             };
-            self.home("done");
-            /*var totalLoad = cpuLoad.async();
-            (function(totalLoad){
-                self.systemInfo.cpuLoad = totalLoad;
-                self.home("done");
-            }).wait(totalLoad);*/
+            this.home("done");
         }
     }
 };

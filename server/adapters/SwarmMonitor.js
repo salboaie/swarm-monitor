@@ -65,6 +65,7 @@ function pingServers() {
     startSwarm("ping.js", "ping");
 }
 
+//check system load
 function checkLoad() {
     startSwarm("systemLoad.js","start");
 }
@@ -86,10 +87,3 @@ setTimeout(function(){
     checkLoad();    
 },2000);
 
-function cleanUp() {
-    clearInterval(pingInterval);
-}
-
-process.on('SIGINT', function () {
-    //cleanUp();
-});

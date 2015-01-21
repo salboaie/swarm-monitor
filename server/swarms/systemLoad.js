@@ -24,12 +24,11 @@ var swarmDescription =
                 usedMemory: totalMemory() - freeMemory(),
                 time: new Date()
             };
-            self.broadcast("notifyMonitor");
-            /*var totalLoad = cpuLoad.async();
-             (function(totalLoad){
-             self.systemInfo.cpuLoad = totalLoad;
-             self.home("done");
-             }).wait(totalLoad);*/
+            var promise = cpuLoad.async();
+            (function(result){
+                self.systemInfo.cpuLoad = result;
+                self.broadcast("notifyMonitor");
+            }).swait(promise);
         }
     },
     notifyMonitor:{

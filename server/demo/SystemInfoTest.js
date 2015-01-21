@@ -17,6 +17,13 @@ swarmHub.startSwarm("systemInfo.js", "start");
 swarmHub.on("systemInfo.js","done", function(response){
     result = response;
 });
+/*
+var winCPU = require('windows-cpu');
+winCPU.totalLoad(function(error, results){
+    console.log('############################## error: %j | result: %j', error, results);
+})
+*/
+
 
 setTimeout (
     function(){

@@ -76,36 +76,15 @@ cpus = function() {
     return os.cpus(); 
 };
 
+
 /**
  * Returns the list of cpu load in percent.
+ * function(error, results) {}
  */
 cpuLoad = function(callback) {
-   /* var promise = winCPU.totalLoad.async();
-    (function(error, result){
-        console.log('errors: %j', error);
-        console.log('result: %j', result);
-
-        return result;
-    }).wait(promise);*/
-    
-    /*var totalLoad = null;
-    winCPU.totalLoad(function(error, result){
-        console.log('errors: %j', error);
-        console.log('result: %j', result);
-
-        totalLoad = result;
-    });
-
-    var interval = setInterval(function(){
-        if (totalLoad) {
-            clearInterval(interval);
-            return totalLoad;
-        }
-    },50);*/
-    winCPU.totalLoad(function(error, result){
-        console.log('errors: %j', error);
-        console.log('result: %j', result);
-
-        callback(result);
-    });
+    if (os.platform() === 'win32') {
+        winCPU.totalLoad(callback);
+    } else {
+        callback(new Error('OS Not supported.'),[]);
+    }
 };
