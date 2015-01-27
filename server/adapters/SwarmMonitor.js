@@ -5,13 +5,14 @@
     
 var core        = require ("../../../SwarmCore/lib/SwarmCore.js");
 var os          = require('os');
+var fs          = require('fs');
 thisAdapter = core.createAdapter("SwarmMonitor");
 
 var config  = getMyConfig('SwarmMonitor');
 
 var activeServers = [];
-var cpuHistory = [];
-var memoryHistory = [];
+var cpuHistory = {};
+var memoryHistory = {};
 
 getCPULoadHistory = function(systemId) {
     return cpuHistory[systemId] ? cpuHistory[systemId] : [];
@@ -22,7 +23,7 @@ getMemoryLoadHistory = function(systemId) {
 };
 
 updateSystemLoad = function(info) {
-    console.log("Update system load : %j",info);
+    //console.log("Update system load : %j",info);
     var systemId = info.systemId;
     
     if (!memoryHistory[systemId]) {
@@ -79,7 +80,7 @@ setTimeout(function(){
         pingServers()
     }, config.pingInterval);
     pingServers(); 
-    
+    process.
     //check server load
     checkLoadInterval = setInterval(function () {
         checkLoad()
@@ -87,3 +88,17 @@ setTimeout(function(){
     checkLoad();    
 },2000);
 
+setTimeout(function(){
+    //dump history
+    console.log("Dump cpu history: %j", cpuHistory);
+    fs.writeFile('d:/cpuHistory.json', JSON.stringify(cpuHistory));
+    console.log("Dump memory history: %j", memoryHistory);
+    fs.writeFile('d:/memoryHistory.json', JSON.stringify(cpuHistory))
+},120000);
+
+/*
+* cpu load: @for /f "skip=1" %p in ('wmic cpu get loadpercentage') do @echo %p%
+* 
+* 
+* 
+* */

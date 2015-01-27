@@ -9,7 +9,8 @@ TODO: check to be clean in production, this is an ideal place where you can put 
 
 var loginSwarming = {
     meta:{
-        debug: false
+        debug: false,
+        name:"login.js"
     },
     vars:{
         authenticated:false

@@ -29,6 +29,17 @@ var swarmDescription =
                 self.systemInfo.cpuLoad = result;
                 self.broadcast("notifyMonitor");
             }).swait(promise);
+
+            //self.swarm("nodename", 'id intern adaptor');
+            /*
+            * thisadapter.nodeName
+            * this.meta.outletId
+            * */
+            /*var stop = createSwarmCallback(function() {
+                
+            });
+            
+            setTimeout(stop, 60000);*/
         }
     },
     notifyMonitor:{

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Swarm Monitor</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+    <!-- MetisMenu CSS -->
+    <link href="../bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <!-- Chart.js-->
+    <!--<link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css">-->
+    <!-- Morris Charts CSS -->
+    <link href="../bower_components/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body id="ng-app" ng-app="SwarmMonitor" ng-controller="BaseCtrl">
+<div id="wrapper" ui-view>
+    
+</div>
+
+<script src="js/socket.io-1.0.6.js"></script>
+<script src="js/SwarmClient.js"></script>
+<script src="js/SwarmHub.js"></script>
+<script src="js/mockup.js"></script>
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+<!-- jQuery -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+<!-- Chart.js -->
+<!--<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>-->
+
+<!-- Morris Charts JavaScript -->
+<script src="bower_components/raphael/raphael-min.js"></script>
+<script src="bower_components/morrisjs/morris.min.js"></script>
+
+<script src="js/sb-admin-2.js"></script>
+<script src="modules/core/swarm-monitor.js"></script>
+<script src="modules/core/controllers/dashboard-controller.js"></script>
+<script src="modules/core/controllers/swarms-controller.js"></script>
+<script src="modules/core/controllers/logs-controller.js"></script>
+
+</body>
+</html>

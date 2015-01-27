@@ -5,18 +5,34 @@
     "systemId": "monitorServer",
     "Core":{
         "coreId":"sTest",
+        "systemId": "monitorServer(127.0.0.1)",
         "redisHost":"swarm-env",
         "redisPort":6379,
+         "throttlers":{
+            "limit":1000,
+            "timeUnit":"minute"
+         },
         "paths":[
             {"folder":"../../SwarmCore/etc/coreSwarms"      ,"enabled":true},
-	        {"folder":"../../SwarmCore/etc/xSwarms"         ,"enabled":true},
+	        {"folder":"../../SwarmCore/etc/xSwarms"         ,"enabled":false},
             {"folder":"../../SwarmCore/etc/testSwarms"      ,"enabled":true},
             {"folder":"swarms"                              ,"enabled":true}
         ]
     },
     "ClientAdapter":{
-        "bindAddress": "localhost",
-        "port":3000
+        "bindAddress": "*",
+        "port":3000,
+        "startSwarmThrottlers":{
+           "limit":1000,
+           "timeUnit":"minute"
+        },
+        "outletThrottlers":{
+           "limit":100,
+           "timeUnit":"minute"
+        }
+    },
+    "WSServer": {
+        "port":3010
     },
     "SystemAdapter":{
         
@@ -25,12 +41,18 @@
         "pingInterval": 5000,
         "checkLoadInterval": 1000
     },
-    "Logger":{},
+    "Logger":{
+        "throttlers":{
+                "limit":1000000,
+                "timeUnit":"minute"
+             }
+    },
     "Launcher":{
         "autorun":[
             {"node":"adapters/Logger.js",                       "enabled":true  },
             {"node":"adapters/SystemAdapter.js",                "enabled":true  },
-            {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":true  },
+            {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":false  },
+            {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":false  },
             {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  }
         ]
