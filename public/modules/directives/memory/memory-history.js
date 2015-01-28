@@ -4,7 +4,7 @@
  */
 'use strict';
 
-SwarmMonitor.directive('cpuHistory', [function() {
+SwarmMonitor.directive('memoryHistory', [function() {
 
     var controller = ['$scope', '$state', '$rootScope', '$element',
         function($scope, $translate, $state, $rootScope, $element){
@@ -13,11 +13,12 @@ SwarmMonitor.directive('cpuHistory', [function() {
 
     return {
         replace: true,
-        templateUrl: 'modules/directives/cpu/cpu-history.html',
+        templateUrl: 'modules/directives/memory/memory-history.html',
         restrict: 'E',
         scope: {
             config: '=config',
-            data: '=data'
+            data: '=data',
+            availableMemory: '=availableMemory'
         },
         controller: controller
     }

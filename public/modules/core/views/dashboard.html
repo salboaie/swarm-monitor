@@ -1,6 +1,6 @@
 <!-- Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
-     style="margin-bottom: 0">
+     style="margin-bottom: 0" xmlns="http://www.w3.org/1999/html">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">Swarm Monitor</a>
     </div>
@@ -20,25 +20,11 @@
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="sidebar-search">
-                    <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                    </div>
-                    <!-- /input-group -->
-                </li>
                 <li>
-                    <a href="index.html" class="active"><i class="fa fa-fw"></i> Dashboard</a>
+                    <a href="" ng-click="selectServer($event, null)"><i class="fa fa-fw"></i> Dashboard</a>
                 </li>
-                <li>
-                    <a href="index.html"><i class="fa fa-fw"></i> Server 1</a>
-                </li>
-                <li>
-                    <a href="index.html"><i class="fa fa-fw"></i> Server 2</a>
+                <li ng-repeat="item in activeServers">
+                    <a href="" ng-click="selectServer($event, item)"><i class="fa fa-fw"></i> {{item}}</a>
                 </li>
             </ul>
         </div>
@@ -47,7 +33,7 @@
 </nav>
 <!-- content -->
 <div id="page-wrapper">
-    <div class="row" style="padding-top: 30px;">
+    <div class="row" style="padding-top: 30px;" ng-show="!selectedServer">
         <div class="col-lg-12">
             <h1 class="page-header">
                 Dashboard
@@ -55,7 +41,7 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="row">
+    <div class="row" ng-show="!selectedServer">
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -113,37 +99,58 @@
                 </div>
             </div>
         </div>
-
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="panel panel-default">
+    <div ng-repeat="server in activeServers" ng-show="!selectedServer">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">
+                    {{server}}
+                </h3>
+            </div>
+            <div class="col-lg-6">
+                <cpu-history config="cpuHistoryChart" data="serverData[server].cpuHistory"></cpu-history>
+            </div>
+            <div class="col-lg-6">
+                <memory-history config="memoryHistoryChart" data="serverData[server].memoryHistory" available-memory="serverData[server].maxMemory"></memory-history>
+            </div>
+        </div>
+    </div>
+    <!-- server view -->
+    <div class="row" style="padding-top: 30px;" ng-show="selectedServer">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{selectedServer}}
+            </h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="row" ng-show="selectedServer">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
                 <div class="panel-heading">
-                    CPU Activity
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div id="morris-cpu-chart">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="small">
+                                4
+                            </div>
+                            <div>
+                                Active adaptors!
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
+        </div>
+    </div>
+    <div class="row" ng-show="selectedServer">
+        <div class="col-lg-6">
+            <cpu-history config="cpuHistoryChart" data="serverData[selectedServer].cpuHistory"></cpu-history>
         </div>
         <div class="col-lg-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Memory (RAM)
-                    <span style="color: red; float:right;">Available 3000GB</span>
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
-                    <div id="morris-ram-chart">
-                    </div>
-                </div>
-                <!-- /.panel-body -->
-            </div>
-            <!-- /.panel -->
+            <memory-history config="memoryHistoryChart" data="serverData[selectedServer].memoryHistory" available-memory="serverData[selectedServer].maxMemory"></memory-history>
         </div>
     </div>
 </div>

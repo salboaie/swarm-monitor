@@ -93,7 +93,7 @@ setTimeout(function(){
     console.log("Dump cpu history: %j", cpuHistory);
     fs.writeFile('d:/cpuHistory.json', JSON.stringify(cpuHistory));
     console.log("Dump memory history: %j", memoryHistory);
-    fs.writeFile('d:/memoryHistory.json', JSON.stringify(cpuHistory))
+    fs.writeFile('d:/memoryHistory.json', JSON.stringify(memoryHistory))
 },120000);
 
 /*
