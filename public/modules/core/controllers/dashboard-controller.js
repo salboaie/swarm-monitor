@@ -6,7 +6,7 @@
 
 SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope',
     function($scope, $state, $rootScope) {
-        /* configurations */
+        /* chart configurations */
         $scope.cpuHistoryChart = {
             categoryField: 'time',
             valueField: 'cpuLoad',
@@ -43,6 +43,14 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
             }
         };
         /* ... */
+
+        $rootScope.onSwarmConnection(function(){
+            swarmHub.startSwarm('monitorClient.js', 'activeServers');
+            swarmHub.on('monitorClient.js', 'done', function(response){
+                console.log(response.activeServers);
+            });
+        });
+        
         var serverList = ['monitorServer','testServer'];
         $scope.activeServers = serverList;
 

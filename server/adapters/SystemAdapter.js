@@ -6,16 +6,16 @@
 var core = require ("../../../SwarmCore/lib/SwarmCore.js");
 var os = require('os');
 var winCPU = require('windows-cpu');
-thisAdapter = core.createAdapter("SystemAdapter");
+
+core.createAdapter("SystemAdapter");
 
 var config = getMyConfig("SystemAdapter");
-var serverId = config.systemId;
 
 /**
  * System identification value.
  */
 systemId = function() {
-    return getMyConfig("systemId");
+    return thisAdapter.systemId;
 };
 
 /**

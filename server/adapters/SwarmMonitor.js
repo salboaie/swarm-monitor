@@ -10,7 +10,7 @@ thisAdapter = core.createAdapter("SwarmMonitor");
 
 var config  = getMyConfig('SwarmMonitor');
 
-var activeServers = [];
+var activeServers = {};
 var cpuHistory = {};
 var memoryHistory = {};
 
@@ -20,6 +20,16 @@ getCPULoadHistory = function(systemId) {
 
 getMemoryLoadHistory = function(systemId) {
     return memoryHistory[systemId] ? memoryHistory[systemId] : [];
+};
+
+getActiveServers = function() {
+    var response = [];
+    
+    for (var item in activeServers) {
+        response.push(item);
+    }
+    
+    return response;
 };
 
 updateSystemLoad = function(info) {
@@ -56,7 +66,7 @@ notifyStatusChanged = function(status) {
         } else {
             delete activeServers[status.systemId];
         }
-        console.log("Received notification for '%s' with status '%s'", status.systemId, status.alive ? 'alive' : 'dead');
+        //console.log("Received notification for '%s' with status '%s'", status.systemId, status.alive ? 'alive' : 'dead');
     }
 };
 
@@ -88,13 +98,6 @@ setTimeout(function(){
     checkLoad();    
 },2000);
 
-setTimeout(function(){
-    //dump history
-    console.log("Dump cpu history: %j", cpuHistory);
-    fs.writeFile('d:/cpuHistory.json', JSON.stringify(cpuHistory));
-    console.log("Dump memory history: %j", memoryHistory);
-    fs.writeFile('d:/memoryHistory.json', JSON.stringify(memoryHistory))
-},120000);
 
 /*
 * cpu load: @for /f "skip=1" %p in ('wmic cpu get loadpercentage') do @echo %p%
