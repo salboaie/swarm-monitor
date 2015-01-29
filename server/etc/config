@@ -32,7 +32,8 @@
         }
     },
     "WSServer": {
-        "port":3010
+        "port":8000,
+        "wwwroot": "/tmp"
     },
     "SystemAdapter":{
         
@@ -52,7 +53,7 @@
             {"node":"adapters/Logger.js",                       "enabled":true  },
             {"node":"adapters/SystemAdapter.js",                "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":false  },
-            {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":false  },
+            {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":true  },
             {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  }
         ]

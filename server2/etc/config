@@ -5,6 +5,7 @@
  "systemId": "testServer",
  "Core":{
      "coreId":"sTest",
+     "systemId": "testServer",
      "redisHost":"swarm-env",
      "redisPort":6379,
      "paths":[

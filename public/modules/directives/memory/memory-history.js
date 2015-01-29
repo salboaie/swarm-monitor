@@ -7,8 +7,8 @@
 SwarmMonitor.directive('memoryHistory', [function() {
 
     var controller = ['$scope', '$state', '$rootScope', '$element',
-        function($scope, $translate, $state, $rootScope, $element){
-            
+        function($scope, $state, $rootScope, $element){
+            $scope.liveView = $scope.liveViewEnabled;
         }];
 
     return {
@@ -18,7 +18,8 @@ SwarmMonitor.directive('memoryHistory', [function() {
         scope: {
             config: '=config',
             data: '=data',
-            availableMemory: '=availableMemory'
+            availableMemory: '=availableMemory',
+            liveViewEnabled: '=liveViewEnabled'
         },
         controller: controller
     }

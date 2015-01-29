@@ -9,7 +9,7 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
     
     var controller = ['$scope', '$state', '$rootScope', '$element',
         function($scope, $translate, $state, $rootScope, $element){
-            console.log('AMCHARTS controller');
+            
         }];
 
     var defaultConfig = {
@@ -42,7 +42,7 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
         scope: {
             config: '=config',
             data: '=data',
-            pause:'=pause'
+            liveView:'=liveView'
         },
         controller: controller,
         link: function (scope, element, attr) {
@@ -50,7 +50,6 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
             
             var id = _.uniqueId('chart-');
             element.attr('id', id);
-            console.log('chart', id);
             var config = scope.config || defaultConfig;
             
             var initChart = function() {
@@ -63,7 +62,7 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
                     theme: "none",
                     marginLeft: 20,
                     pathToImages: "./images/amcharts/",
-                    dataProvider: scope.data,
+                    //dataProvider: scope.data,
                     categoryField: config.categoryField,
                     //dataDateFormat: 'MM SS',
                     categoryAxis: {
@@ -97,18 +96,31 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
                 
             };
             
-            initChart();
-            
             var checker;
-            scope.$watch('pause', function(newValue, oldValue){
-                if (newValue === true) {
+            scope.$watch('liveView', function(newValue, oldValue){
+                if (newValue !== true) {
                     clearInterval(checker);
                 } else {
                     checker = setInterval(function(){
                         //check for new data
-                        chart.validateData();
+                        if (chart) {
+                            chart.validateData();
+                        }
                     },1000);
                 }
+            });
+            
+            scope.$watch('data', function(newValue,oldValue){
+                if (newValue) {
+                    initChart();
+                    chart.dataProvider = newValue;
+                    chart.validateData();
+                }
+            });
+            
+            scope.$on('$destroy', function(){
+                console.log('CHART destroyed for id:' + id);
+                clearInterval(checker);
             });
         }
     };

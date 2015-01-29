@@ -14,11 +14,18 @@ SwarmMonitor.controller('LogsController', ['$scope', '$state', '$rootScope',
         $scope.logFiles = logFiles;
         
         $scope.loadFile = function(event, item, serverName) {
-            $scope.logContent = '';
+            $scope.logContent = null;
             $scope.selectedFile = item;
             $scope.selectedServer = serverName;
-            
-            $scope.logContent = atob(mockup.logContent);
-        }
+        };
+
+        $scope.$watch('selectedServer',function(newValue, oldValue){
+            if (newValue) {
+                //load log content
+                $scope.logContent = atob(mockup.logContent);
+            } else {
+                $scope.logContent = null;
+            }
+        });
     }
 ]);

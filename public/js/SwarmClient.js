@@ -79,6 +79,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             socket.onopen   =  socket_onConnect;
 
             setTimeout(function(){
+                console.log('swarming socket ready:', socket.readyState);
                      if(socket.readyState != 1){
                          socket.onerror();
                      }
@@ -245,7 +246,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
         var len;
 
         connectionInProgress = false;
-        loginOk = data.isOk;
+        loginOk = data.authenticated;
 
         if (loginOk) {
             outletId = data.meta.outletId;
@@ -388,3 +389,72 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
     }
 }
 
+
+function cprint(){
+    var output = "";
+    for(var i=0;i<arguments.length;i++ ){
+        var arg = arguments[i];
+        if(typeof arg  != "object"){
+            output+= arg;
+        } else {
+            output+= JSON.stringify(arg);
+        }
+        output+= " ";
+    }
+    console.log("lprint#", output);
+}
+
+function dprint(){
+    var output = "";
+    for(var i=0;i<arguments.length;i++ ){
+        var arg = arguments[i];
+        if(typeof arg  != "object"){
+            output+= arg;
+        } else {
+            output+= JSON.stringify(arg);
+        }
+        output+= " ";
+    }
+    console.log("lprint#", output);
+}
+
+function lprint(){
+    var output = "";
+    for(var i=0;i<arguments.length;i++ ){
+        var arg = arguments[i];
+        if(typeof arg  != "object"){
+            output+= arg;
+        } else {
+            output+= JSON.stringify(arg);
+        }
+        output+= " ";
+    }
+    console.log("lprint#", output);
+}
+
+function wprint (){
+    var output = "";
+    for(var i=0;i<arguments.length;i++ ){
+        var arg = arguments[i];
+        if(typeof arg  != "object"){
+            output+= arg;
+        } else {
+            output+= JSON.stringify(arg);
+        }
+        output+= " ";
+    }
+    console.log("lprint#", output);
+}
+
+function esprint(str, err){
+    console.log(str,err);
+}
+
+function eprint(str, err){
+    console.log(str,err);
+}
+
+
+function hookConsoleOnMobile(){
+
+}

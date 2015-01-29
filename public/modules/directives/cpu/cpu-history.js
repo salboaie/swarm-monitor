@@ -7,8 +7,8 @@
 SwarmMonitor.directive('cpuHistory', [function() {
 
     var controller = ['$scope', '$state', '$rootScope', '$element',
-        function($scope, $translate, $state, $rootScope, $element){
-            
+        function($scope, $state, $rootScope, $element){
+            $scope.liveView = $scope.liveViewEnabled;
         }];
 
     return {
@@ -17,7 +17,8 @@ SwarmMonitor.directive('cpuHistory', [function() {
         restrict: 'E',
         scope: {
             config: '=config',
-            data: '=data'
+            data: '=data',
+            liveViewEnabled: '=liveViewEnabled'
         },
         controller: controller
     }

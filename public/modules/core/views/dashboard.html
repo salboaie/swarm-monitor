@@ -33,7 +33,7 @@
 </nav>
 <!-- content -->
 <div id="page-wrapper">
-    <div class="row" style="padding-top: 30px;" ng-show="!selectedServer">
+    <div class="row" style="padding-top: 30px;" ng-if="!selectedServer">
         <div class="col-lg-12">
             <h1 class="page-header">
                 Dashboard
@@ -41,7 +41,7 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="row" ng-show="!selectedServer">
+    <div class="row" ng-if="!selectedServer">
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -100,7 +100,7 @@
             </div>
         </div>
     </div>
-    <div ng-repeat="server in activeServers" ng-show="!selectedServer">
+    <div ng-repeat="server in activeServers" ng-if="!selectedServer">
         <div class="row">
             <div class="col-lg-12">
                 <h3 class="page-header">
@@ -116,7 +116,7 @@
         </div>
     </div>
     <!-- server view -->
-    <div class="row" style="padding-top: 30px;" ng-show="selectedServer">
+    <div class="row" style="padding-top: 30px;" ng-if="selectedServer">
         <div class="col-lg-12">
             <h1 class="page-header">
                 {{selectedServer}}
@@ -124,7 +124,7 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="row" ng-show="selectedServer">
+    <div class="row" ng-if="selectedServer">
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-yellow">
                 <div class="panel-heading">
@@ -145,12 +145,12 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-show="selectedServer">
+    <div class="row" ng-if="selectedServer">
         <div class="col-lg-6">
-            <cpu-history config="cpuHistoryChart" data="serverData[selectedServer].cpuHistory"></cpu-history>
+            <cpu-history live-view-enabled="true" config="cpuHistoryChart" data="serverData[selectedServer].cpuHistory"></cpu-history>
         </div>
         <div class="col-lg-6">
-            <memory-history config="memoryHistoryChart" data="serverData[selectedServer].memoryHistory" available-memory="serverData[selectedServer].maxMemory"></memory-history>
+            <memory-history live-view-enabled="true" config="memoryHistoryChart" data="serverData[selectedServer].memoryHistory" available-memory="serverData[selectedServer].maxMemory"></memory-history>
         </div>
     </div>
 </div>

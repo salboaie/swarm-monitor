@@ -16,11 +16,17 @@ SwarmMonitor.controller('SwarmsController', ['$scope', '$state', '$rootScope',
         },10000);*/
         $scope.selectSwarm = function(event, swarm) {
             event.preventDefault();
-            $scope.swarmContent = '';
+            $scope.swarmContent = null;
             $scope.selectedSwarm = swarm;
-            
-            //get swarm from server
-            $scope.swarmContent = atob(mockup.swarmContent);
-        }
+        };
+
+        $scope.$watch('selectedSwarm',function(newValue, oldValue){
+            if (newValue) {
+                //get swarm from server
+                $scope.swarmContent = atob(mockup.swarmContent);
+            } else {
+                $scope.swarmContent = null;
+            }
+        });
     }
 ]);

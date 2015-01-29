@@ -1,10 +1,13 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        CPU Activity <span style="float: right"><label ng-click="pause = !pause;">[{{pause ? 'Resume' : 'Pause'}}]</label></span>
+        CPU Activity 
+        <a href="" ng-click="liveView = !liveView" style="float: right">
+            <i class="glyphicon " ng-class="{'glyphicon-pause': liveView, 'glyphicon-play': !liveView}"></i>
+        </a>
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-        <area-chart-with-time config="config" pause="pause" data="data"></area-chart-with-time>
+        <area-chart-with-time config="config" live-view="liveView" data="data"></area-chart-with-time>
     </div>
     <!-- /.panel-body -->
 </div>
