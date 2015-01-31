@@ -24,7 +24,7 @@
                     <a href="" ng-click="selectServer($event, null)"><i class="fa fa-fw"></i> Dashboard</a>
                 </li>
                 <li ng-repeat="item in activeServers">
-                    <a href="" ng-click="selectServer($event, item)"><i class="fa fa-fw"></i> {{item}}</a>
+                    <a href="" ng-click="selectServer($event, item)"><i class="fa fa-fw"></i> {{item.identity}}</a>
                 </li>
             </ul>
         </div>
@@ -50,9 +50,7 @@
                             <i class="fa fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="small">
-                                2
-                            </div>
+                            <div class="small">{{activeServersCount}}</div>
                             <div>
                                 Servers in use!
                             </div>
@@ -88,9 +86,7 @@
                             <i class="fa fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="small">
-                                4
-                            </div>
+                            <div class="small">{{activeAdaptorsCount}}</div>
                             <div>
                                 Active adaptors!
                             </div>
@@ -104,14 +100,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3 class="page-header">
-                    {{server}}
+                    {{server.identity}}
                 </h3>
             </div>
             <div class="col-lg-6">
-                <cpu-history config="cpuHistoryChart" data="serverData[server].cpuHistory"></cpu-history>
+                <cpu-history config="cpuHistoryChart" data="serverData[server.identity].cpuHistory"></cpu-history>
             </div>
             <div class="col-lg-6">
-                <memory-history config="memoryHistoryChart" data="serverData[server].memoryHistory" available-memory="serverData[server].maxMemory"></memory-history>
+                <memory-history config="memoryHistoryChart" data="serverData[server.identity].memoryHistory" 
+                                available-memory="serverData[server.identity].info.totalMemory"></memory-history>
             </div>
         </div>
     </div>
@@ -124,33 +121,21 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="row" ng-if="selectedServer">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="small">
-                                4
-                            </div>
-                            <div>
-                                Active adaptors!
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="row" ng-if="selectedServer">
         <div class="col-lg-6">
             <cpu-history live-view-enabled="true" config="cpuHistoryChart" data="serverData[selectedServer].cpuHistory"></cpu-history>
         </div>
         <div class="col-lg-6">
-            <memory-history live-view-enabled="true" config="memoryHistoryChart" data="serverData[selectedServer].memoryHistory" available-memory="serverData[selectedServer].maxMemory"></memory-history>
+            <memory-history live-view-enabled="true" config="memoryHistoryChart" data="serverData[selectedServer].memoryHistory" available-memory="serverData[selectedServer].info.totalMemory"></memory-history>
+        </div>
+    </div>
+    <div class="row" ng-if="selectedServer">
+        <div class="col-lg-6">
+            <system-info data="serverData[selectedServer].info"></system-info>
+        </div>
+        <div class="col-lg-6">
+            <adaptor-list-view data="activeServers[selectedServer]"></adaptor-list-view>
         </div>
     </div>
 </div>

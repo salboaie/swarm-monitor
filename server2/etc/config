@@ -22,7 +22,7 @@
  "Logger":{},
  "Launcher":{
             "autorun":[
-                        {"node":"../server/adapters/Logger.js",                "enabled":false  },
+                        {"node":"../server/adapters/Logger.js",                "enabled":true  },
                         {"node":"../server/adapters/SystemAdapter.js",                "enabled":true  },
                         {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":false  },
                         {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  },

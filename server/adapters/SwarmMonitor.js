@@ -23,13 +23,13 @@ getMemoryLoadHistory = function(systemId) {
 };
 
 getActiveServers = function() {
-    var response = [];
+    /*var response = [];
     
     for (var item in activeServers) {
         response.push(item);
-    }
+    }*/
     
-    return response;
+    return activeServers;
 };
 
 updateSystemLoad = function(info) {
@@ -62,7 +62,7 @@ updateSystemLoad = function(info) {
 notifyStatusChanged = function(status) {
     if (status) {
         if (status.alive) {
-            activeServers[status.systemId] = status.adaptors;
+            activeServers[status.systemId] = status.nodes;
         } else {
             delete activeServers[status.systemId];
         }

@@ -5,7 +5,7 @@
     "systemId": "monitorServer",
     "Core":{
         "coreId":"sTest",
-        "systemId": "monitorServer(127.0.0.1)",
+        "systemId": "monitorServer",
         "redisHost":"swarm-env",
         "redisPort":6379,
          "throttlers":{
@@ -43,6 +43,7 @@
         "checkLoadInterval": 1000
     },
     "Logger":{
+        
         "throttlers":{
                 "limit":1000000,
                 "timeUnit":"minute"
@@ -52,7 +53,7 @@
         "autorun":[
             {"node":"adapters/Logger.js",                       "enabled":true  },
             {"node":"adapters/SystemAdapter.js",                "enabled":true  },
-            {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":false  },
+            {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":true  },
             {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  }

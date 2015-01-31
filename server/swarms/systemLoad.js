@@ -46,7 +46,6 @@ var swarmDescription =
         node:"SwarmMonitor",
         code:function() {
             updateSystemLoad(this.systemInfo);
-            //this.home("done");
         }
     }
 };

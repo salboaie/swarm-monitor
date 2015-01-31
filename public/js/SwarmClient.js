@@ -327,7 +327,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
 
     this.startSwarm = function (swarmName, ctorName) {
         var args = Array.prototype.slice.call(arguments,2);
-        console.log('Start swarm: ' + swarmName);
+        //console.log('Start swarm: ' + swarmName);
         for(var i=0;i<args.length; i++ ){
             if(objectIsShapeSerializable(args[i])){
                 args[i] = args[i].getInnerValues();

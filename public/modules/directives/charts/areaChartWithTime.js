@@ -93,7 +93,9 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
                         "cursorPosition": "mouse"
                     }
                 });
-                
+                /*var chartScrollbar = new AmCharts.ChartScrollbar();
+                chart.addChartScrollbar(chartScrollbar);
+                chart.validateData();*/
             };
             
             var checker;
@@ -101,25 +103,30 @@ SwarmMonitor.directive('areaChartWithTime', [function() {
                 if (newValue !== true) {
                     clearInterval(checker);
                 } else {
+                    console.log('live view enabled');
                     checker = setInterval(function(){
                         //check for new data
+                        //console.log(chart.dataProvider.length);
                         if (chart) {
                             chart.validateData();
+                            chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
                         }
                     },1000);
                 }
             });
             
             scope.$watch('data', function(newValue,oldValue){
+                //console.log('chart data changed', newValue ? newValue.length : 'null');
                 if (newValue) {
                     initChart();
                     chart.dataProvider = newValue;
                     chart.validateData();
+                    chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
                 }
             });
             
             scope.$on('$destroy', function(){
-                console.log('CHART destroyed for id:' + id);
+                //console.log('CHART destroyed for id:' + id);
                 clearInterval(checker);
             });
         }

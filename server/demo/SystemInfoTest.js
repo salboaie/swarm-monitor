@@ -13,9 +13,11 @@ globalVerbosity = false;
 
 var result = null;
 
-swarmHub.startSwarm("systemInfo.js", "start");
+swarmHub.startSwarm("systemInfo.js", "startAll");
 swarmHub.on("systemInfo.js","done", function(response){
     result = response;
+    console.log(result ? nutil.inspect(result.systemInfo, false, null) : null);
+    console.log('---------------------------------------------------------------------');
 });
 /*
 var winCPU = require('windows-cpu');
@@ -27,11 +29,11 @@ winCPU.totalLoad(function(error, results){
 
 setTimeout (
     function(){
-        console.log(result ? nutil.inspect(result.systemInfo, false, null) : null);
+        //console.log(result ? nutil.inspect(result.systemInfo, false, null) : null);
         console.log("Test uptime: " + process.uptime() );
         console.log("Memory usage: %j", process.memoryUsage() );
         setTimeout(function() {
             console.log("pid: " + process.pid);
             process.exit(1);
         },500);
-    }, 2000);
+    }, 10000);

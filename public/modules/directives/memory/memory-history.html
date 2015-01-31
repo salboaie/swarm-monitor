@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        Memory (RAM) <a href="" ng-click="liveView = !liveView" style="float: right">
+        Memory (RAM) - Total Amount <span><b>{{bytesFormat(availableMemory,3)}}</b></span><a href="" ng-click="liveView = !liveView" style="float: right">
         <i class="glyphicon " ng-class="{'glyphicon-pause': liveView, 'glyphicon-play': !liveView}"></i>
     </a>
     </div>

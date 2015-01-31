@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router']);
+var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router', 'smart-table']);
 
 SwarmMonitor.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -50,6 +50,14 @@ SwarmMonitor.controller('BaseCtrl', ['$scope', '$rootScope', '$window',
         var swarmSystemAuthenticated = false;
         var swarmConnectionCallbacks = [];
 
+        $rootScope.bytesFormat = function(bytes, precision) {
+            if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+            if (typeof precision === 'undefined') precision = 1;
+            var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+                number = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+        };
+        
         $rootScope.onSwarmConnection = function(callback) {
             if (swarmSystemAuthenticated) {
                 callback();

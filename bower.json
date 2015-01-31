@@ -23,6 +23,7 @@
     "datatables-responsive": "~1.0.3",
     "bootstrap-social": "~4.8.0",
     "flot.tooltip": "~0.8.4",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "angular-smart-table": "~1.4.9"
   }
 }

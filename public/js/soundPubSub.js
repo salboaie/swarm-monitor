@@ -18,6 +18,10 @@ function ShapeEvents(){
 SHAPE = new ShapeConstants();
 SHAPEEVENTS= new ShapeEvents();
 
+function objectIsShapeSerializable(obj){
+    return obj && obj.__meta != undefined;
+}
+
 /**
  *  Pub/Sub system that provides intuitive results regarding to asynchronous calls of callbacks and computed values/expressions
  * PubSub channels are available in browser (or node.js):

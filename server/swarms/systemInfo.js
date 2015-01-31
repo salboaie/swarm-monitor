@@ -15,6 +15,9 @@ var swarmDescription =
     start:function(){
         this.swarm("getSystemInfo");
     },
+    startAll:function(){
+        this.broadcast("getSystemInfo");
+    },
     getSystemInfo:{ 
         node:"SystemAdapter",
         code : function (){
