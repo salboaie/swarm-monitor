@@ -10,6 +10,10 @@ thisAdapter = core.createAdapter("SwarmMonitor");
 
 var config  = getMyConfig('SwarmMonitor');
 
+var redisClient = function(){
+    return thisAdapter.nativeMiddleware.privateRedisClient;
+};
+
 var activeServers = {};
 var cpuHistory = {};
 var memoryHistory = {};
@@ -23,12 +27,6 @@ getMemoryLoadHistory = function(systemId) {
 };
 
 getActiveServers = function() {
-    /*var response = [];
-    
-    for (var item in activeServers) {
-        response.push(item);
-    }*/
-    
     return activeServers;
 };
 
@@ -70,6 +68,21 @@ notifyStatusChanged = function(status) {
     }
 };
 
+listSwarms = function(callBack){
+    var redisKey = thisAdapter.nativeMiddleware.makeRedisKey("system","code");
+    var result = redisClient().hkeys.async(redisKey);
+    (function(result){
+        callBack(null, result);
+    }).swait(result);
+};
+
+loadSwarm = function(swarmName, callBack){
+    var redisKey = thisAdapter.nativeMiddleware.makeRedisKey("system","code");
+    var result = redisClient().hget.async(redisKey,swarmName);
+    (function(result){
+        callBack(null, result);
+    }).swait(result);
+};
 
 //make ping request
 function pingServers() {
@@ -95,7 +108,11 @@ setTimeout(function(){
     checkLoadInterval = setInterval(function () {
         checkLoad()
     }, config.checkLoadInterval);
-    checkLoad();    
+    checkLoad();   
+    
+    /*listSwarms(function(err,result){
+       console.log(err,result); 
+    });*/
 },2000);
 
 

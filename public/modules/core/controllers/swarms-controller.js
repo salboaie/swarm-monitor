@@ -6,27 +6,32 @@
 
 SwarmMonitor.controller('SwarmsController', ['$scope', '$state', '$rootScope',
     function($scope, $state, $rootScope) {
-        var swarms = ['log.js', 'login.js', 'BenchMark.js', 'startRemoteSwarm.js'];
+        $scope.swarms = [];
         
-        $scope.swarms = swarms;
-        /*setTimeout(function(){
-            console.log('new swarm');
-            $scope.swarms.push('NewSwarm');
+        $rootScope.onSwarmConnection(function () {
+            swarmHub.startSwarm('monitorClient.js', 'listSwarms');
+        });
+        swarmHub.on('monitorClient.js','listSwarmsDone', function (response) {
+            $scope.swarms = response.swarmList;
             $scope.$apply();
-        },10000);*/
+        });
+        
+        swarmHub.on('monitorClient.js','loadSwarmDone', function (response) {
+            if (response.swarmName == $scope.selectedSwarm) {
+                $scope.swarmContent = response.swarmDescription;
+            }
+            $scope.$apply();
+        });
+        
         $scope.selectSwarm = function(event, swarm) {
             event.preventDefault();
             $scope.swarmContent = null;
             $scope.selectedSwarm = swarm;
+            $rootScope.onSwarmConnection(function () {
+                swarmHub.startSwarm('monitorClient.js', 'loadSwarm', swarm);
+            });
         };
 
-        $scope.$watch('selectedSwarm',function(newValue, oldValue){
-            if (newValue) {
-                //get swarm from server
-                $scope.swarmContent = atob(mockup.swarmContent);
-            } else {
-                $scope.swarmContent = null;
-            }
-        });
+        
     }
 ]);

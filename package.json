@@ -41,7 +41,8 @@
     "postinstall": "bower install",
 
     "prestart": "npm install",
-    "start": "grunt serve"
+    "start": "http-server -a localhost -p 80 -c-1"
+    
   },
   "dependencies": {
     "windows-cpu": "^0.1.1"

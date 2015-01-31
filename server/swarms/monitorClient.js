@@ -22,6 +22,13 @@ var swarmDescription =
     systemLoad:function() {
         this.broadcast('getSystemLoad');
     },
+    listSwarms:function(){
+        this.swarm('getSwarms');
+    },
+    loadSwarm:function(swarmName){
+        this.swarmName = swarmName;
+        this.swarm('getSwarmDescription');
+    },
     getActiveServers:{
         node:"SwarmMonitor",
         code: function() {
@@ -51,6 +58,30 @@ var swarmDescription =
             (function(result){
                 self.systemInfo.cpuLoad = result;
                 self.home('loadCheckDone');
+            }).swait(promise);
+        }
+    },
+    getSwarms:{
+        node:"SwarmMonitor",
+        code: function() {
+            var self = this;
+            var promise = listSwarms.async();
+            (function(result){
+                self.swarmList = result;
+                //console.log('active servers requested', this.serversInfo);
+                self.home('listSwarmsDone');
+            }).swait(promise);
+        }
+    },
+    getSwarmDescription:{
+        node:"SwarmMonitor",
+        code: function() {
+            var self = this;
+            var promise = loadSwarm.async(this.swarmName);
+            (function(result){
+                self.swarmDescription = result;
+                //console.log('active servers requested', this.serversInfo);
+                self.home('loadSwarmDone');
             }).swait(promise);
         }
     }

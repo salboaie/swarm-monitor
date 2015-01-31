@@ -56,7 +56,9 @@
             {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":true  },
             {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
-            {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  }
+            {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  },
+            {"node":"../../SwarmCore/etc/adapters/SharedAdapter.js"  ,       "enabled":true  },
+            {"node":"../../SwarmCore/etc/adapters/TestAdapter.js"  ,       "enabled":true  }
         ]
     }
 }
