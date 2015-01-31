@@ -178,5 +178,14 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                 }
             }
         });
+        
+        /* check swarms */
+        $rootScope.onSwarmConnection(function () {
+            swarmHub.startSwarm('monitorClient.js', 'listSwarms');
+        });
+        swarmHub.on('monitorClient.js','listSwarmsDone', function (response) {
+            $scope.swarmsCount = response.swarmList.length;
+            $scope.$apply();
+        });
     }
 ]);
