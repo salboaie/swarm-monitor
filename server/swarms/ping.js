@@ -16,7 +16,6 @@ var swarmDescription =
         this.broadcast('pingLauncher');
     },
     dispatch: function(systemStatus) {
-        //console.log("dispatch status: %j", systemStatus);
         this.status = systemStatus || {};
         this.broadcast('notifyMonitor');
     },

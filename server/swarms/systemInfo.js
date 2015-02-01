@@ -12,9 +12,6 @@ var swarmDescription =
     vars:{
 
     },
-    start:function(){
-        this.swarm("getSystemInfo");
-    },
     startAll:function(){
         this.broadcast("getSystemInfo");
     },

@@ -33,7 +33,6 @@ var swarmDescription =
         node:"SwarmMonitor",
         code: function() {
             this.serversInfo = getActiveServers();
-            //console.log('active servers requested', this.serversInfo);
             this.home('done');
         }
     },
@@ -68,7 +67,6 @@ var swarmDescription =
             var promise = listSwarms.async();
             (function(result){
                 self.swarmList = result;
-                //console.log('active servers requested', this.serversInfo);
                 self.home('listSwarmsDone');
             }).swait(promise);
         }
@@ -80,7 +78,6 @@ var swarmDescription =
             var promise = loadSwarm.async(this.swarmName);
             (function(result){
                 self.swarmDescription = result;
-                //console.log('active servers requested', this.serversInfo);
                 self.home('loadSwarmDone');
             }).swait(promise);
         }
