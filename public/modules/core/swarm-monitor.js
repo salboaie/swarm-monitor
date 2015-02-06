@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router', 'smart-table']);
+var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router', 'smart-table', 'growlNotifications', 'ngAnimate']);
 
 SwarmMonitor.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -86,5 +86,7 @@ SwarmMonitor.controller('BaseCtrl', ['$scope', '$rootScope', '$window',
             swarmConnectionCallbacks = [];
             console.log("Swarm System: login success");
         });
+
+        $rootScope.notifications = [];
     }
 ]);

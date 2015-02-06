@@ -49,6 +49,8 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
         $scope.swarmsCount = 0;
         $scope.activeServers = {};
         $scope.serverData = {};
+        
+        var notificationEnabled = false;
 
         /* clean up stuff */
         var activeServersChecker;
@@ -102,6 +104,12 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                     //remove server key
                     delete $scope.activeServers[sKey];
                     asChanged = true;
+                    if (notificationEnabled) {
+                        $rootScope.notifications.push({
+                            type: 'error',
+                            text: 'Server down: ' + sKey
+                        });
+                    }
                 }
             }
             //add new servers
@@ -120,6 +128,12 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                             swarmHub.startSwarm('monitorClient.js', 'loadHistory', sKey);
                         });
                     }
+                    if (notificationEnabled) {
+                        $rootScope.notifications.push({
+                            type: 'success',
+                            text: 'Server started: ' + sKey
+                        });
+                    }
                 }
             }
 
@@ -129,6 +143,8 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                 updateAdaptorCount();
                 $scope.$apply();
             }
+
+            notificationEnabled = true;
         });
         activeServersChecker = setInterval(loadActiveServers, 5000);
 
