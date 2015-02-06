@@ -6,6 +6,8 @@
 var core        = require ("../../../SwarmCore/lib/SwarmCore.js");
 var os          = require('os');
 var fs          = require('fs');
+var moment      = require('moment');
+
 thisAdapter = core.createAdapter("SwarmMonitor");
 
 var config  = getMyConfig('SwarmMonitor');
@@ -15,6 +17,7 @@ var redisClient = function(){
 };
 
 var activeServers = {};
+var activeServerLastChecked = {};
 var cpuHistory = {};
 var memoryHistory = {};
 
@@ -61,8 +64,10 @@ notifyStatusChanged = function(status) {
     if (status) {
         if (status.alive) {
             activeServers[status.systemId] = status.nodes;
+            activeServerLastChecked[status.systemId] = new Date();
         } else {
             delete activeServers[status.systemId];
+            delete activeServerLastChecked[status.systemId];
         }
         //console.log("Received notification for '%s' with status '%s'", status.systemId, status.alive ? 'alive' : 'dead');
     }
@@ -103,12 +108,26 @@ setTimeout(function(){
         pingServers()
     }, config.pingInterval);
     pingServers(); 
-    process.
+    
     //check server load
     checkLoadInterval = setInterval(function () {
         checkLoad()
     }, config.checkLoadInterval);
     checkLoad();   
+    
+    //check if any server died
+    setInterval(function(){
+        var now = moment();
+        var serverKey;
+        for (serverKey in activeServerLastChecked) {
+            var lastCheck = activeServerLastChecked[serverKey];
+            
+            if (!lastCheck || now.diff(lastCheck) > 11000) {
+                delete activeServerLastChecked[serverKey];
+                delete activeServers[serverKey];
+            }
+        }
+    },10000);
     
     /*listSwarms(function(err,result){
        console.log(err,result); 

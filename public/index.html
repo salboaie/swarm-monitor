@@ -28,9 +28,7 @@
 <body id="ng-app" ng-app="SwarmMonitor" ng-controller="BaseCtrl">
 <!--<div style="position: fixed; right: 0px; top: 100px;">-->
     <growl-notifications></growl-notifications>
-    <growl-notification class="fading success">zuzu success</growl-notification>
-    <growl-notification class="fading error">zuzu error</growl-notification>
-    <div ng-repeat="notification in notifications">
+    <div ng-repeat="(id, notification) in notifications track by id">
         <growl-notification ng-class="{success: notification.type === 'success', error: notification.type === 'error'}">
             {{notification.text}}</growl-notification>
     </div>

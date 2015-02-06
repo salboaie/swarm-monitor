@@ -39,12 +39,11 @@
   },
   "scripts": {
     "postinstall": "bower install",
-
     "prestart": "npm install",
     "start": "http-server -a localhost -p 80 -c-1"
-    
   },
   "dependencies": {
+    "moment": "^2.9.0",
     "windows-cpu": "^0.1.1"
   }
 }

@@ -106,6 +106,7 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                     asChanged = true;
                     if (notificationEnabled) {
                         $rootScope.notifications.push({
+                            id: sKey,
                             type: 'error',
                             text: 'Server down: ' + sKey
                         });
@@ -130,6 +131,7 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
                     }
                     if (notificationEnabled) {
                         $rootScope.notifications.push({
+                            id: sKey,
                             type: 'success',
                             text: 'Server started: ' + sKey
                         });
