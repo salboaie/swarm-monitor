@@ -40,14 +40,19 @@
     },
     "SwarmMonitor":{
         "pingInterval": 5000,
-        "checkLoadInterval": 1000
+        "checkLoadInterval": 1000,
+        "adminPhone": "admin phone number"
     },
     "Logger":{
-        
         "throttlers":{
                 "limit":1000000,
                 "timeUnit":"minute"
              }
+    },
+    "SMSAdapter":{
+        "connectionId":"connection ID for SMSLink",
+        "password": "add password here",
+        "enabled": false
     },
     "Launcher":{
         "autorun":[
@@ -56,6 +61,7 @@
             {"node":"../../SwarmCore/etc/adapters/ClientAdapter.js"  ,       "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/WSServer.js"  ,       "enabled":true  },
             {"node":"adapters/SwarmMonitor.js",                "enabled":true  },
+            {"node":"adapters/SMSAdapter.js",                "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/PhasesMonitor.js"  ,       "enabled":false  },
             {"node":"../../SwarmCore/etc/adapters/SharedAdapter.js"  ,       "enabled":true  },
             {"node":"../../SwarmCore/etc/adapters/TestAdapter.js"  ,       "enabled":true  }

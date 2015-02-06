@@ -11,6 +11,7 @@ var moment      = require('moment');
 thisAdapter = core.createAdapter("SwarmMonitor");
 
 var config  = getMyConfig('SwarmMonitor');
+var adminPhone = config.adminPhone;
 
 var redisClient = function(){
     return thisAdapter.nativeMiddleware.privateRedisClient;
@@ -56,18 +57,26 @@ updateSystemLoad = function(info) {
     });
 };
 
+var notifyAdmin = function(message) {
+    startSwarm("sms.js", "start", adminPhone, message);
+};
+
 /**
  * Update server status
  * @param status Server status
  */
 notifyStatusChanged = function(status) {
     if (status) {
+        if (status.systemId === undefined) {
+            return;
+        }
         if (status.alive) {
             activeServers[status.systemId] = status.nodes;
             activeServerLastChecked[status.systemId] = new Date();
         } else {
             delete activeServers[status.systemId];
             delete activeServerLastChecked[status.systemId];
+            notifyAdmin('SwarmMonitor: ' + status.systemId + ' is down.');
         }
         //console.log("Received notification for '%s' with status '%s'", status.systemId, status.alive ? 'alive' : 'dead');
     }
@@ -119,12 +128,16 @@ setTimeout(function(){
     setInterval(function(){
         var now = moment();
         var serverKey;
-        for (serverKey in activeServerLastChecked) {
+        for (serverKey in activeServers) {
             var lastCheck = activeServerLastChecked[serverKey];
             
             if (!lastCheck || now.diff(lastCheck) > 11000) {
-                delete activeServerLastChecked[serverKey];
-                delete activeServers[serverKey];
+                notifyStatusChanged({
+                    systemId: serverKey,
+                    alive: false
+                });
+                /*delete activeServerLastChecked[serverKey];
+                delete activeServers[serverKey];*/
             }
         }
     },10000);

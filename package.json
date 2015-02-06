@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "moment": "^2.9.0",
+    "request": "^2.53.0",
     "windows-cpu": "^0.1.1"
   }
 }
