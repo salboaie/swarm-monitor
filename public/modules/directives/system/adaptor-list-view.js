@@ -8,8 +8,6 @@ SwarmMonitor.directive('adaptorListView', [function() {
 
     var controller = ['$scope', '$state', '$rootScope', '$element',
         function($scope, $state, $rootScope, $element){
-            //$scope.liveView = $scope.liveViewEnabled;
-            //$scope.bytesFormat = $rootScope.bytesFormat;
             $scope.$watch('data', function(newValue, oldValue){
                 console.log('server nodes changed', newValue);
             });

@@ -8,8 +8,6 @@ SwarmMonitor.directive('systemInfo', [function() {
 
     var controller = ['$scope', '$state', '$rootScope', '$element',
         function($scope, $state, $rootScope, $element){
-            //$scope.liveView = $scope.liveViewEnabled;
-            //$scope.bytesFormat = $rootScope.bytesFormat;
             $scope.info = [];
             var addInfo = function(type, value) {
                 $scope.info.push({
@@ -25,7 +23,7 @@ SwarmMonitor.directive('systemInfo', [function() {
                     addInfo('System Type', newValue.type);
                     addInfo('Platform', newValue.platform);
                     addInfo('Architecture', newValue.architecture);
-                    addInfo('Uptime', newValue.uptime);
+                    addInfo('Uptime', $rootScope.timeFormat(newValue.uptime));
                     addInfo('Total Memory', $rootScope.bytesFormat(newValue.totalMemory,3));
                     addInfo('CPU Model', newValue.cpus[0].model);
                     addInfo('CPU Cores', newValue.cpus.length);
