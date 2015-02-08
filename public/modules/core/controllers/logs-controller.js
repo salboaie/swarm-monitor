@@ -17,11 +17,21 @@ SwarmMonitor.controller('LogsController', ['$scope', '$state', '$rootScope',
                 $scope.logFiles[fileName].files = [];
             }
             
-            $scope.logFiles[fileName].files.push({
-                name: fileName,
-                server: server,
-                node: nodeId
-            });
+            var found = false;
+            for (var file in $scope.logFiles[fileName].files) {
+                if (file.name == fileName) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                $scope.logFiles[fileName].files.push({
+                    name: fileName,
+                    server: server,
+                    node: nodeId
+                });
+            }
         };
         
         $rootScope.onSwarmConnection(function () {
