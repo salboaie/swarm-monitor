@@ -18,8 +18,9 @@ SwarmMonitor.controller('LogsController', ['$scope', '$state', '$rootScope',
             }
             
             var found = false;
-            for (var file in $scope.logFiles[fileName].files) {
-                if (file.name == fileName) {
+            for (var index in $scope.logFiles[fileName].files) {
+                //console.log('check ', fileName, ' | index ', index, ' | server ', server);
+                if ($scope.logFiles[fileName].files[index].server === server) {
                     found = true;
                     break;
                 }
@@ -45,12 +46,6 @@ SwarmMonitor.controller('LogsController', ['$scope', '$state', '$rootScope',
                 $scope.$apply();
             }
         });
-        /*var logFiles = [
-            {name:'ClientAdapter', type:'err',servers:['server 1']},
-            {name:'Launcher', type:'err',servers:['server 1', 'server 2']}
-        ];*/
-        
-        
         
         $scope.loadFile = function(event, file) {
             $scope.logContent = null;
