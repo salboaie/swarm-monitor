@@ -45,8 +45,8 @@ SwarmMonitor.run(['$rootScope', '$location', '$state', '$window',
 ]);
 
 
-SwarmMonitor.controller('BaseCtrl', ['$scope', '$rootScope', '$window',
-    function ($scope, $rootScope, $window) {
+SwarmMonitor.controller('BaseCtrl', ['$scope', '$rootScope', '$window', '$location',
+    function ($scope, $rootScope, $window, $location) {
         var swarmSystemAuthenticated = false;
         var swarmConnectionCallbacks = [];
 
@@ -105,7 +105,7 @@ SwarmMonitor.controller('BaseCtrl', ['$scope', '$rootScope', '$window',
         };
 
         //init swarm system connection
-        var swarmClient = new SwarmClient("localhost", 8000, "TestUser", "ok", "swarmMonitor", "testCtor",
+        var swarmClient = new SwarmClient($location.host(), 8000, "TestUser", "ok", "swarmMonitor", "testCtor",
             function securityErrorFunction(err, data) {
                 console.log('Swarm System [security error]:', err);
             }, function errorFunction(err) {
