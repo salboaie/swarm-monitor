@@ -4,7 +4,7 @@
  */
 'use strict';
 
-var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router', 'smart-table', 'growlNotifications', 'ngAnimate']);
+var SwarmMonitor = angular.module('SwarmMonitor', ['ngResource', 'ui.router', 'smart-table', 'growlNotifications', 'ngAnimate', 'ngDialog']);
 
 SwarmMonitor.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
     function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -29,6 +29,10 @@ SwarmMonitor.config(['$stateProvider', '$urlRouterProvider', '$httpProvider',
                     url: '/logs',
                     templateUrl: 'modules/core/views/logs.html',
                     controller: 'LogsController'
+                }).state('organisations', {
+                    url: '/organisations',
+                    templateUrl: 'modules/core/views/organisations.html',
+                    controller: 'OrganisationsController'
                 });
 
             $urlRouterProvider.otherwise('/dashboard');

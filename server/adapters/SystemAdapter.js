@@ -85,6 +85,7 @@ cpuLoad = function(callback) {
     if (os.platform() === 'win32') {
         winCPU.totalLoad(callback);
     } else {
-        callback(new Error('OS Not supported.'),[]);
+        callback(null,100);
+        //callback(new Error('OS Not supported.'),[]);
     }
 };

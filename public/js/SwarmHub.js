@@ -1,13 +1,14 @@
 //easy API for listening swarm events. On on funcitions you add listeners for both swarm type and phase name
 function SwarmHub(swarmConnection){
     var callBacks = {};
+    var self = this;
 
     function dispatchingCallback(swarm){
         var o = callBacks[swarm.meta.swarmingName];
         if(o){
             var myCall = o[swarm.meta.currentPhase];
             if(!myCall){
-                console.log("Warning: Nobody listens for swarm " + swarm.meta.swarmingName + " and phase " + swarm.meta.currentPhase);
+                cprint("Warning: Nobody listens for swarm " + swarm.meta.swarmingName + " and phase " + swarm.meta.currentPhase);
             } else {
                 try{
                     if(myCall instanceof Array){
@@ -18,12 +19,12 @@ function SwarmHub(swarmConnection){
                         myCall(swarm);
                     }
                 } catch(err){
-                    console.log("Error in swarm callback " + err.stack, err);
+                    cprint("Error in swarm callback " + err.stack, err);
                 }
 
             }
         } else {
-            console.log("Warning: Nobody listens for swarm " + swarm.meta.swarmingName + " and phase " + swarm.meta.currentPhase);
+            cprint("Warning: Nobody listens for swarm " + swarm.meta.swarmingName + " and phase " + swarm.meta.currentPhase);
         }
     }
 
@@ -64,6 +65,14 @@ function SwarmHub(swarmConnection){
         }
     }
 
+    var pendingCommands = [];
+    this.startSwarm = function(){
+        var args = [];
+        for(var v in arguments){
+            args.push(v);
+        }
+    }
+
     this.resetConnection = function (newConnection){
         if(swarmConnection !== newConnection){
             swarmConnection = newConnection;
@@ -71,8 +80,14 @@ function SwarmHub(swarmConnection){
                 swarmConnection.on(v,dispatchingCallback);
             }
         }
-
         this.startSwarm =  swarmConnection.startSwarm.bind(swarmConnection);
+
+
+
+        pendingCommands.forEach(function(args){
+            self.startSwarm.apply(self, args);
+        })
+        pendingCommands = [];
     }
 }
 

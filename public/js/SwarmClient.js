@@ -41,7 +41,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
     createSocket();
 
     function createSocket() {
-       
+        lprint("Creating a new socket");
         isConnected = false;
         if(useSocketIo){
             if(socket){
@@ -70,6 +70,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
                 socket.on('reconnect', socket_onReconect);
             }
         } else {
+            dprint("Connecting to the Web Socket server: ", connectionString);
             socket = new WebSocket(connectionString);
             socket.onmessage =   function(data){
                 socket_onStreamData(JSON.parse(data.data));
@@ -79,7 +80,6 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             socket.onopen   =  socket_onConnect;
 
             setTimeout(function(){
-                console.log('swarming socket ready:', socket.readyState);
                      if(socket.readyState != 1){
                          socket.onerror();
                      }
@@ -89,12 +89,14 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
     }
 
     function socket_onConnect(){
+        lprint("Socket connected");
         isConnected = true;
         getIdentity();
     }
 
 
     this.destroySocket = function(){
+        lprint("Destroying a socket");
         if(useSocketIo){
             delete socket;
             delete this;
@@ -111,13 +113,14 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
     }
 
     function socket_onError(err) {
+        lprint("Unexpected socket error");
         if(err){
-            console.log("Socket error", err);
+            eprint("Socket error", err);
         }
         if(errorFunction){
             errorFunction(err);
         }else{
-            console.log("socket_onError handler");
+            lprint("socket_onError handler");
         }
         socket_onDisconnect();
     }
@@ -136,7 +139,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
                 try {
                     self.destroySocket();
                 } catch (err) {
-                    console.log("eroare IE ", err);
+                    eprint("eroare IE ", err);
                 }
                 createSocket();
                 //console.log("isConnected",currentAttemptToReconnect);
@@ -149,8 +152,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             }else{
                 currentAttemptToReconnect++
                 if(currentAttemptToReconnect == nrAttemptReconnect){
-                    console.log('Network disconnected');
-                    /*if(!showingAlert){
+                    if(!showingAlert){
                         showingAlert = true;
                         shape.alert("Network connection is down. Click ok to connect!", function(){
                             showingAlert = false;
@@ -158,32 +160,35 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
                                 try{
                                     self.destroySocket();
                                 }catch(err){
-                                    console.log("eroare IE ",err);
+                                    eprint("eroare IE ",err);
                                 }
                                 currentAttemptToReconnect = 0;
                                 createSocket();
                             }
                         });
-                    }*/
+                    }
                 }
             }
         }, 1000);
     }
 
     function socket_onRetry() {
+        lprint("Socket Retry handler");
 
     }
 
     function socket_onReconect() {
+        lprint("Unexpected socket reconnect");
         //lprint("socket_onReconect handler");
         //getIdentity();
     }
 
     function socket_onStreamData(data) {
         if(data.swarmDataGotProcessed){
-            
+            lprint("Wtf!?????????????????????");
         } else {
             data.swarmDataGotProcessed = true;
+            lprint("Got swarm ", data);
             currentFunction(data);
         }
     }
@@ -231,7 +236,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             apiVersion = data.meta.apiVersion;
 
             if (apiVersion !== "2.0") {
-                console.log("Api version doesn't match !", "Api version error, 2.0 expected");
+                lprint("Api version doesn't match !", "Api version error, 2.0 expected");
             }
 
             doLogin(userId, authToken, tenantId, loginCtor);
@@ -268,7 +273,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             if(securityErrorFunction){
                 securityErrorFunction(data.meta.currentPhase, data);
             } else {
-                console.log("Login failed !", "Login failed : authorisationToken:[" + data.authorisationToken + "] userId:[" + data.userId + "]");
+                lprint("Login failed !", "Login failed : authorisationToken:[" + data.authorisationToken + "] userId:[" + data.userId + "]");
             }
         }
     }
@@ -287,19 +292,17 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
             for (var i = 0, len = callbackList.length; i < len; i++) {
                 var callback = callbackList[i];
                 try {
-                    shapePubSub.blockCallBacks();
                     callback(data);
-                    shapePubSub.releaseCallBacks();
                 }
                 catch (e) {
-                    console.log(e + " in swarm generated callback: " + callback ,e );
+                    eprint(e + " in swarm generated callback: " + callback ,e );
                 }
             }
         }
     }
 
     function getIdentity() {
-        console.log("Preparing for communication...");
+        lprint("Preparing for communication...");
         /* if (connectionInProgress) {
             return;
         } */
@@ -327,7 +330,6 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
 
     this.startSwarm = function (swarmName, ctorName) {
         var args = Array.prototype.slice.call(arguments,2);
-        //console.log('Start swarm: ' + swarmName);
         for(var i=0;i<args.length; i++ ){
             if(objectIsShapeSerializable(args[i])){
                 args[i] = args[i].getInnerValues();
@@ -380,7 +382,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
 
         if(useSocketIo ){
             if (socket) {
-                //console.log("Emiting: ", value);
+                lprint("Emiting: ", value);
                 socket.emit('message', value);
             }
         } else {
@@ -390,71 +392,10 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
 }
 
 
-function cprint(){
-    var output = "";
-    for(var i=0;i<arguments.length;i++ ){
-        var arg = arguments[i];
-        if(typeof arg  != "object"){
-            output+= arg;
-        } else {
-            output+= JSON.stringify(arg);
-        }
-        output+= " ";
+if(typeof(objectIsShapeSerializable) == "undefined"){
+    objectIsShapeSerializable = function(){
+        return false;
     }
-    console.log("lprint#", output);
-}
-
-function dprint(){
-    var output = "";
-    for(var i=0;i<arguments.length;i++ ){
-        var arg = arguments[i];
-        if(typeof arg  != "object"){
-            output+= arg;
-        } else {
-            output+= JSON.stringify(arg);
-        }
-        output+= " ";
-    }
-    console.log("lprint#", output);
-}
-
-function lprint(){
-    var output = "";
-    for(var i=0;i<arguments.length;i++ ){
-        var arg = arguments[i];
-        if(typeof arg  != "object"){
-            output+= arg;
-        } else {
-            output+= JSON.stringify(arg);
-        }
-        output+= " ";
-    }
-    console.log("lprint#", output);
-}
-
-function wprint (){
-    var output = "";
-    for(var i=0;i<arguments.length;i++ ){
-        var arg = arguments[i];
-        if(typeof arg  != "object"){
-            output+= arg;
-        } else {
-            output+= JSON.stringify(arg);
-        }
-        output+= " ";
-    }
-    console.log("lprint#", output);
-}
-
-function esprint(str, err){
-    console.log(str,err);
-}
-
-function eprint(str, err){
-    console.log(str,err);
 }
 
 
-function hookConsoleOnMobile(){
-
-}

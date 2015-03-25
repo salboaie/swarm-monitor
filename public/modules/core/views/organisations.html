@@ -1,0 +1,59 @@
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"
+     style="margin-bottom: 0">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Home</a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+        <ul class="nav navbar-nav">
+
+            <li class="active">
+                <a href="#/organisations">Organisations</a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="center"><button ng-click="addNewOrganisation($event)"> Add new organisation</button></div>
+
+        <div class="sidebar-nav navbar-collapse">
+
+            <ul class="nav" id="side-menu">
+                <li ng-repeat="item in organisations">
+                    <a href="" ng-click="selectOrganisation($event, item)"><i class="fa fa-fw"></i> {{item.displayName}}</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+</nav>
+<!-- content -->
+<div id="page-wrapper">
+
+
+    <div class="row" style="padding-top: 30px;" ng-show="selectedOrganisation">
+
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{selectedOrganisation.displayName}}
+            </h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="center"><button ng-click="addUser($event)"> Add new user</button></div>
+
+    <div class="row" ng-show="selectedOrganisation">
+        <div class="col-lg-12 ">
+            <pre>
+                <ul class="nav" >
+                    <li ng-repeat="item in users">
+                        <a href="" ng-click="editUser($event, item)"><i class="fa fa-fw"></i> {{item.name}}</a>
+                    </li>
+                </ul>
+
+            </pre>
+
+        </div>
+    </div>
+</div>

@@ -25,6 +25,7 @@
     "angular-growl-notifications": "~2.1.2",
     "angular-animate": "~1.2.x",
     "html5-boilerplate": "~5.0.0"
+    "ngDialog":">0.3.12"
   },
   "resolutions": {
     "angular": "1.2.22"

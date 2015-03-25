@@ -177,7 +177,7 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
             $rootScope.onSwarmConnection(function () {
                 swarmHub.startSwarm('monitorClient.js', 'systemLoad');
             });
-        }, 1000);
+        }, 600000);
 
         swarmHub.on('monitorClient.js', 'loadCheckDone', function (response) {
             var sKey = response.systemInfo.systemId;
