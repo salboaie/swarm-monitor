@@ -10,6 +10,10 @@ var organisationCtrl =
         this.displayName    = displayName;
         this.swarm('createOrganisation');
     },
+    delete:function(organisationId){
+        this.organisationId = organisationId;
+        this.swarm('deleteOrganisation');
+    },
     organisationsList:function(){
         this.swarm('doOrganisationsList');
     },
@@ -29,6 +33,13 @@ var organisationCtrl =
                     self.err = err;
                     self.home("creationFailed");
                 });
+        }
+    },
+    deleteOrganisation:{
+        node:"UsersManager",
+        code: function() {
+            deleteOrganisation(this.organisationId);
+            this.home("organisationDeleted");
         }
     },
     updateOrganisation:{

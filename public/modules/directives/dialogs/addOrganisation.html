@@ -1,9 +1,11 @@
 <div class="dialog-contents" >
     <div>
-        OrganisationId      <input type="text" ng-model="organisationId"/>
+        <span class="formLabel"> OrganisationId       </span>
+        <input type="text" ng-model="organisationId"/>
     </div>
     <div>
-        Display Name&nbsp;  <input type="text" ng-model="displayName"/>
+        <span class="formLabel"> Display Name </span>
+        <input type="text" ng-model="displayName"/>
     </div>
     <input type="button" value="Save" ng-click="checkInput()"/>
     <div>{{status}}</div>

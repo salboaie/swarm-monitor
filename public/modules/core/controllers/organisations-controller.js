@@ -27,42 +27,63 @@ SwarmMonitor.controller('OrganisationsController', ['$scope', '$state', '$rootSc
             swarmHub.startSwarm('UserCtrl.js', 'usersList',  $scope.selectedOrganisation.organisationId);
         };
 
-        swarmHub.on('UserCtrl.js', 'usersListDone', function(swarm){
+        swarmHub.on('UserCtrl.js', 'userListDone', function(swarm){
             $scope.users = swarm.userList;
             $scope.$apply();
         });
 
-        $scope.addNewOrganisation = function(event) {
-            console.log(event);
-            ngDialog.open({
-                    template: '<add-organisation> Expanding...</add-organisation>',
-                    plain: true
-                });
+        swarmHub.on('UserCtrl.js', 'userCreationDone', function(swarm){
+            $scope.users.unshift(swarm.user);
+            $scope.$apply();
+        });
+
+        swarmHub.on('UserCtrl.js', 'userDeleted', function(swarm){
+            $scope.users = $scope.users.filter(function(el){
+                return el.userId !== swarm.user.userId;
+            });
+            $scope.$apply();
+        });
 
 
         $scope.addUser = function(event) {
-                console.log(event);
+            $scope.currentUser = null;
+            ngDialog.open({
+                template: '<edit-user> Expanding...</edit-user>',
+                plain: true,
+                scope: $scope
+            });
+        }
 
-                $scope.editUser = {
-                    createNewUser:true
-                }
+
+        $scope.deleteOrganisation = function(event) {
+            swarmHub.startSwarm('Organisations.js','delete',  $scope.selectedOrganisation.organisationId);
+            $scope.organisations = $scope.organisations.filter(function(item){
+                return item.organisationId !== $scope.selectedOrganisation.organisationId;
+            });
+            $scope.selectedOrganisation = null;
+        }
+
+
+
+        $scope.addNewOrganisation = function(event) {
+
+            ngDialog.open({
+                template: '<add-organisation> Expanding...</add-organisation>',
+                plain: true
+            });
+        }
+
+        $scope.editUser = function(event, user) {
+                console.log(user);
+                $scope.currentUser = user;
+
                 ngDialog.open({
                     template: '<edit-user> Expanding...</edit-user>',
-                    plain: true
-                });
-            }
-
-        $scope.editUser = function(event) {
-                console.log(event);
-                $scope.editUser = {
-                    createNewUser:false
-                }
-                ngDialog.open({
-                    template: '<edit-user> Expanding...</edit-user>',
-                    plain: true
+                    plain: true,
+                    scope: $scope
                 });
             }
             //event.preventDefault();
-        };
-    }
+        }
+
 ]);

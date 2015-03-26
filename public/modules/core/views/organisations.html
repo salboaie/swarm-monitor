@@ -29,10 +29,9 @@
     </div>
 </nav>
 <!-- content -->
-<div id="page-wrapper">
+<div id="page-wrapper" ng-show="selectedOrganisation">
 
-
-    <div class="row" style="padding-top: 30px;" ng-show="selectedOrganisation">
+    <div class="row" style="padding-top: 30px;" >
 
         <div class="col-lg-12">
             <h1 class="page-header">
@@ -41,19 +40,15 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div class="center"><button ng-click="addUser($event)"> Add new user</button></div>
+    <button ng-click="addUser($event)" > Add new user</button> <button ng-click="deleteOrganisation($event)" > Delete organisation</button>
 
-    <div class="row" ng-show="selectedOrganisation">
-        <div class="col-lg-12 ">
-            <pre>
-                <ul class="nav" >
-                    <li ng-repeat="item in users">
-                        <a href="" ng-click="editUser($event, item)"><i class="fa fa-fw"></i> {{item.name}}</a>
-                    </li>
-                </ul>
-
-            </pre>
-
+    <div  ng-show="selectedOrganisation">
+        <div >
+            <ul class="nav" >
+                <li ng-repeat="item in users">
+                    <a href="" ng-click="editUser($event, item)"><i class=""></i> {{item.userName}}</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

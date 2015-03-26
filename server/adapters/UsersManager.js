@@ -11,9 +11,6 @@ var apersistence = require('apersistence');
 
 apersistence.registerModel("DefaultUser","Redis", {
     ctor: function () {
-        this.granted = false;
-        this.rejected = false;
-        this.modificationDate = new Date(Date.now());
     },
     userId: {
         type: "string",
@@ -25,6 +22,9 @@ apersistence.registerModel("DefaultUser","Redis", {
     organisationId:{
         type:"string",
         index :"true"
+    },
+    password: {
+        type: "string"
     }
 });
 
@@ -42,19 +42,30 @@ apersistence.registerModel("Organisation","Redis", {
 });
 
 
-createUser = function(organisationId, userId, callback){
-    var user = redisPersistence.lookup.async("DefaultUser", userId.userId);
+createUser = function(organisationId, userData, callback){
+    var user = redisPersistence.lookup.async("DefaultUser", userData.userId);
     (function(user){
         if(!redisPersistence.isFresh(user)){
-            callback(new Error("User with identical id already exists"), null);
+            callback(new Error("User with identical id " + userData.userId + " already exists"), null);
             return ;
         }
-        user.organisationId = organisationId;
+        for(var v in userData){
+            user[v] =  userData[v];
+        }
+        redisPersistence.externalUpdate(user, userData);
         redisPersistence.save(user);
         callback(null, user);
     }).swait(user);
 }
 
+
+deleteUser = function(userData){
+    redisPersistence.deleteById("DefaultUser", userData.userId);
+}
+
+deleteOrganisation = function(organisationId){
+    redisPersistence.deleteById("Organisation", organisationId);
+}
 
 updateUser = function(userJsonObj, callback){
     var user = redisPersistence.lookup.async("DefaultUser", userJsonObj.userId);
@@ -67,6 +78,7 @@ updateUser = function(userJsonObj, callback){
 
 
 queryUsers = function(organisationId, callback){
+    console.log("Users for:", organisationId);
     var list  = redisPersistence.filter.async("DefaultUser", {"organisationId": organisationId});
 
     (function(list){

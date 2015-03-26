@@ -1,10 +1,18 @@
 <div class="dialog-contents" >
-    <div>
-        UserId(CNP)    <input type="text" ng-model="userId"/>
+    <div>{{labelTitle}} {{user.userId}}</div>
+    <div ng-show="editUID">
+        <span class="formLabel"> UserId(CNP) </span>   <input type="text" ng-model="user.userId"/>
     </div>
     <div>
-        User Name      <input type="text" ng-model="displayName"/>
+        <span class="formLabel">User Name</span>
+          <input type="text" ng-model="user.userName"/>
     </div>
-    <input type="button" value="Save" ng-click="checkInput()"/>
+
+    <div>
+        <span class="formLabel">Password</span>
+        <input type="password" ng-model="user.password"/>
+    </div>
+    <input type="button" value="Save" ng-click="saveUser()"/>
+    <input type="button" value="Delete" ng-click="deleteUser()" ng-show="!editUID"/>
     <div>{{status}}</div>
 </div>

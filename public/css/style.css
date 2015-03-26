@@ -415,3 +415,8 @@ growl-notification.fading.ng-leave.ng-leave-active {
     margin-right: auto;
     width: 70%;
 }
+
+
+.formLabel {
+    display: inline-block; width: 140px; text-align: left;
+}

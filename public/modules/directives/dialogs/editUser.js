@@ -5,22 +5,70 @@ SwarmMonitor.directive('editUser', [function() {
     
     var controller = ['$scope', '$state', '$rootScope', '$element',
         function($scope, $translate, $state, $rootScope, $element){
-            $scope.userId = ""
-            $scope.name   = "Anonymous";
             $scope.status  = "";
 
-            $scope.checkInput = function(){
-                swarmHub.startSwarm('UserCtrl.js', 'create', $scope.organisationId, $scope.name);
-                $scope.status = 'Saving...';
+            $scope.labelTitle = "Editing user: ";
+            $scope.editUID = false;
+            var organisationId = $scope.$parent.selectedOrganisation.organisationId;
+
+            $scope.user = $scope.$parent.currentUser;
+            if(!$scope.user){
+                $scope.editUID = true;
+                $scope.labelTitle = "New user: ";
+                $scope.user = {
+                    userId:"",
+                    userName:"none",
+                    password:"",
+                    organisationId:organisationId
+                }
+            }
+
+            $scope.saveUser = function(){
+                if($scope.editUID ){
+                    if(!$scope.user.userId ) {
+                        $scope.status = 'Invalid user id...';
+                        return;
+                    }
+
+                    if(!$scope.user.password ) {
+                        $scope.status = 'Invalid password...';
+                        return;
+                    }
+
+                    swarmHub.startSwarm('UserCtrl.js', 'create', $scope.user);
+                    $scope.status = 'Creating...';
+
+                } else {
+                    swarmHub.startSwarm('UserCtrl.js', 'update', $scope.user);
+                    $scope.status = 'Saving...';
+                }
+            }
+
+            $scope.deleteUser = function() {
+                if (!$scope.editUID) {
+                    swarmHub.startSwarm('UserCtrl.js', 'delete', $scope.user);
+                    $scope.closeThisDialog('Deleting...');
+                }
             }
 
             function closeMe(){
                 $scope.closeThisDialog('Created...');
+                swarmHub.off('UserCtrl.js', 'userCreationDone', closeMe);
                 swarmHub.off('UserCtrl.js', 'saveDone', closeMe);
             }
 
+            swarmHub.on('UserCtrl.js', 'userCreationDone', closeMe);
             swarmHub.on('UserCtrl.js', 'saveDone', closeMe);
 
+            swarmHub.on('UserCtrl.js', "userCreationFailed", function(){
+                $scope.status = 'Failed to create, wrong id...';
+                $scope.$apply();
+            });
+
+            swarmHub.on('UserCtrl.js', 'userUpdateFailed', function(){
+                $scope.status = 'Validate your input...';
+                $scope.$apply();
+            });
         }];
 
     return {
